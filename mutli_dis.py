@@ -11,17 +11,19 @@ import os
 import sys
 
 
-def combineImages(*args):
-    numImages = 0
-    imageArray = []
+def combineImages(imageArray):
+    numImages = len(imageArray)
+    #imageArray = []
 
-    for img in args:
-        if img != None and img.width > 0 and img.height > 0:
-            imageArray.append(img)
-            numImages += 1
+    #for img in args:
+        #if img != None and img.width > 0 and img.height > 0:
+            #imageArray.append(img)
+            #numImages += 1
+    for i in imageArray:
+        print i
 
-    if numImages <= 0:
-        return None
+    #if numImages <= 0:
+        #return None
 
     # Find the largest x and y dimensions out of all the images
     # The resulting grid of images will all have this size,
@@ -57,3 +59,4 @@ def combineImages(*args):
     return combinedImage
 
 
+#cv.SaveImage("out.jpg", combineImages(args))

@@ -11,13 +11,16 @@ import cv2
 import numpy as np
 
 #my library
-import mutli_dis
+from mutli_dis import combineImages
 
 def split_img(src_img,split_h,split_w):
-    img = cv.LoadImage(src_img)
-    os.system('rm -r output')
-    print "delete output"
+    #check file is exists
+    if os.path.exists("output"):
+        os.system('rm -r output')
+        print "delete output"
     os.system('mkdir output')
+
+    img = cv.LoadImage(src_img)
     fp = os.getcwd() + "/" +  "output" + "/"
     print fp
     suffix = ".jpg"
@@ -36,31 +39,29 @@ def split_img(src_img,split_h,split_w):
             fn += 1
     return sp_img_li
 
-def read_img_cv2(pic_dir):
+def read_img_cv2(img_dir):
     cv2_img_li = []
-    for i in os.listdir(pic_dir):
-        cv2_img = cv2.imread(pic_dir + "/" + i)
+    for i in os.listdir(img_dir):
+        cv2_img = cv2.imread(img_dir + "/" + i)
         cv2_img_li.append(cv2_img)
 
+def read_img_cv(img_dir):
+    cv_img_li = []
+    for i in os.listdir(img_dir):
+        cv_img = cv.LoadImage(img_dir + "/" + i)
+        cv_img_li.append(cv_img)
+    return cv_img_li
+#args
 src_img = sys.argv[1]
 split_h = int(sys.argv[2])
 split_w = int(sys.argv[3])
 
-sp_img_li = split_img(src_img,split_h,split_w)
-print sp_img_li
-
-x1 = "output/0.jpg"
-x2 = "output/1.jpg"
-img1 = cv.LoadImage(x1)
-img2 = cv.LoadImage(x2)
-final_output = mutli_dis.combineImages(img1,img2)
-print final_output
-#cv.SaveImage("final_output",finl_output)
-
-
-
-
-
+#func run
+split_img(src_img,split_h,split_w)
+img_li = read_img_cv("output")
+for i in img_li:
+    print i.
+cv.SaveImage("out.jpg", combineImages(img_li))
 
 
 
