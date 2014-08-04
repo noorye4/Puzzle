@@ -4,14 +4,15 @@
 #python libray
 import sys
 import os
+import random
+import math
+from operator import attrgetter
 
 #third party library
 import cv
 import cv2
 import numpy as np
 
-#my library
-from mutli_dis import combineImages
 
 def split_img(src_img,split_h,split_w):
     #check file is exists
@@ -22,7 +23,6 @@ def split_img(src_img,split_h,split_w):
 
     img = cv.LoadImage(src_img)
     fp = os.getcwd() + "/" +  "output" + "/"
-    print fp
     suffix = ".jpg"
     fn = 0
     ceil_height = img.height/split_h
@@ -37,7 +37,30 @@ def split_img(src_img,split_h,split_w):
             sp_img_li.append(tmp_img)
             cv.SaveImage(op_name,tmp_img)
             fn += 1
-    return sp_img_li
+
+def combineImages(imageArray):
+
+    numImages = len(imageArray)
+    colWidth = max(imageArray, key=attrgetter('width')).width
+    rowHeight = max(imageArray, key=attrgetter('height')).height
+    grid = int(math.ceil(math.sqrt(numImages)))
+    combinedImage = cv.CreateImage((colWidth * grid, rowHeight * grid), 8, 3)
+    cv.Set(combinedImage, cv.CV_RGB(50, 50, 50))
+
+    for index, img in enumerate(imageArray):
+        if img.nChannels == 1:
+            colourImg = cv.CreateImage((img.width, img.height), 8, 3)
+            cv.CvtColor(img, colourImg, cv.CV_GRAY2RGB)
+            img = colourImg
+
+        row = index % grid
+        column = int(math.ceil(index / grid))
+        cv.SetImageROI(
+            combinedImage, (row * colWidth, column * rowHeight, img.width, img.height))
+        cv.Copy(img, combinedImage)
+        cv.ResetImageROI(combinedImage)
+
+    return combinedImage
 
 def read_img_cv2(img_dir):
     cv2_img_li = []
@@ -47,28 +70,21 @@ def read_img_cv2(img_dir):
 
 def read_img_cv(img_dir):
     cv_img_li = []
-    for i in os.listdir(img_dir):
+    img_li = (os.listdir(img_dir))
+    img_li.sort(key=lambda x:int(x[:-4]))
+    for i in img_li:
         cv_img = cv.LoadImage(img_dir + "/" + i)
         cv_img_li.append(cv_img)
     return cv_img_li
+
 #args
 src_img = sys.argv[1]
 split_h = int(sys.argv[2])
 split_w = int(sys.argv[3])
 
 #func run
-split_img(src_img,split_h,split_w)
+split_img_li = split_img(src_img,split_h,split_w)
 img_li = read_img_cv("output")
-for i in img_li:
-    print i.
+random.shuffle(img_li)
 cv.SaveImage("out.jpg", combineImages(img_li))
-
-
-
-
-
-
-
-
-
 
