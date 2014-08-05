@@ -14,19 +14,19 @@ import numpy as np
 #puzzle library
 import basic
 
-def main():
-    #args
-    src_img = sys.argv[1]
-    split_h = int(sys.argv[2])
-    split_w = int(sys.argv[3])
-    #process split
-    basic.split_img(src_img,split_h,split_w)
+def calc_pixle_dis():
 
-    #process read
     cv2_img_li = basic.read_img_cv2("split_output")
+    for i in cv2_img_li:
+       print i.shape
+
+
+    #x =  cv2_img_li[0]
+    #print x
+    #cv2.imshow('image',x)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
 
 
 
-if __name__ == '__main__':
-    main()
-
+calc_pixle_dis()

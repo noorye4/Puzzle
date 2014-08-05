@@ -67,6 +67,7 @@ def read_img_cv2(img_dir):
     for i in os.listdir(img_dir):
         cv2_img = cv2.imread(img_dir + "/" + i)
         cv2_img_li.append(cv2_img)
+    return cv2_img_li
 
 def read_img_cv(img_dir):
     cv_img_li = []
@@ -77,14 +78,4 @@ def read_img_cv(img_dir):
         cv_img_li.append(cv_img)
     return cv_img_li
 
-#args
-#src_img = sys.argv[1]
-#split_h = int(sys.argv[2])
-#split_w = int(sys.argv[3])
-
-#func run
-#split_img_li = split_img(src_img,split_h,split_w)
-#img_li = read_img_cv("split_output")
-#random.shuffle(img_li)
-#cv.SaveImage("combine_out.jpg", combine_image(img_li))
 
