@@ -78,4 +78,32 @@ def read_img_cv(img_dir):
         cv_img_li.append(cv_img)
     return cv_img_li
 
+def output_cv_img(src_img):
+
+    if os.path.exists("final_output"):
+        os.system('rm -r final_output')
+        print "delete final_output"
+    os.system('mkdir final_output')
+
+    output_dir = "final_output/out.jpg"
+    cv.SaveImage(output_dir,src_img)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -21,11 +21,12 @@ def main():
     split_w = int(sys.argv[3])
     #process split
     basic.split_img(src_img,split_h,split_w)
-
     #process read
-    cv2_img_li = basic.read_img_cv2("split_output")
+    split_img_li = basic.read_img_cv("split_output")
 
-
+    random.shuffle(split_img_li)
+    out_img =  basic.combine_image(split_img_li)
+    basic.output_cv_img(out_img)
 
 if __name__ == '__main__':
     main()

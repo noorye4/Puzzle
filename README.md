@@ -1,2 +1,6 @@
 #Puzzle Problem
-![out](out.jpg)
+##input image
+![src_img](cat.jpg)
+##split image
+![out_img](final/out.jpg)
+
