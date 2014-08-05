@@ -1,34 +1,90 @@
 #!/usr/bin/env python
 #-*- encoding: utf-8 -*-
 
+#python libray
+import sys
+import os
+import random
+import math
+from operator import attrgetter
+
+#third party library
+import cv
 import cv2
 import numpy as np
 
-#read image
-img = cv2.imread("cat.jpg")
 
-#display window name
-cv2.namedWindow("Image")
+def split_img(src_img,split_h,split_w):
+    #check file is exists
+    if os.path.exists("split_output"):
+        os.system('rm -r split_output')
+        print "delete split_output"
+    os.system('mkdir split_output')
 
-#
-emptyImage = np.zeros(img.shape, np.uint8)
-print emptyImage.__array__
-#copy image
-emptyImage2 = img.copy()
+    img = cv.LoadImage(src_img)
+    fp = os.getcwd() + "/" +  "split_output" + "/"
+    suffix = ".jpg"
+    fn = 0
+    ceil_height = img.height/split_h
+    ceil_width = img.width/split_w
+    tmp_img = img
+    sp_img_li = []
+    for i in range(split_h):
+        for j in range(split_w):
+            tmp_img = img
+            op_name = fp + repr(fn) + suffix
+            cv.SetImageROI(tmp_img,(i + j*ceil_width,j + i*ceil_height,ceil_width,ceil_height))
+            sp_img_li.append(tmp_img)
+            cv.SaveImage(op_name,tmp_img)
+            fn += 1
 
-#
-emptyImage3=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+def combine_image(imageArray):
 
-print 
-# emptyImage3[...]=0 
+    numImages = len(imageArray)
+    colWidth = max(imageArray, key=attrgetter('width')).width
+    rowHeight = max(imageArray, key=attrgetter('height')).height
+    grid = int(math.ceil(math.sqrt(numImages)))
+    combinedImage = cv.CreateImage((colWidth * grid, rowHeight * grid), 8, 3)
+    cv.Set(combinedImage, cv.CV_RGB(50, 50, 50))
 
-#show image
-cv2.imshow("Image", emptyImage3)
+    for index, img in enumerate(imageArray):
+        if img.nChannels == 1:
+            colourImg = cv.CreateImage((img.width, img.height), 8, 3)
+            cv.CvtColor(img, colourImg, cv.CV_GRAY2RGB)
+            img = colourImg
 
-#wait any a key event ,0 is mean forever
-cv2.waitKey (0)
-# cv2.destroyAllWindows()
+        row = index % grid
+        column = int(math.ceil(index / grid))
+        cv.SetImageROI(
+            combinedImage, (row * colWidth, column * rowHeight, img.width, img.height))
+        cv.Copy(img, combinedImage)
+        cv.ResetImageROI(combinedImage)
 
-#save image
-cv2.imwrite("cat2.jpg", emptyImage3, [int(cv2.IMWRITE_JPEG_QUALITY), 5])
-# print emptyImage3
+    return combinedImage
+
+def read_img_cv2(img_dir):
+    cv2_img_li = []
+    for i in os.listdir(img_dir):
+        cv2_img = cv2.imread(img_dir + "/" + i)
+        cv2_img_li.append(cv2_img)
+
+def read_img_cv(img_dir):
+    cv_img_li = []
+    img_li = (os.listdir(img_dir))
+    img_li.sort(key=lambda x:int(x[:-4]))
+    for i in img_li:
+        cv_img = cv.LoadImage(img_dir + "/" + i)
+        cv_img_li.append(cv_img)
+    return cv_img_li
+
+#args
+#src_img = sys.argv[1]
+#split_h = int(sys.argv[2])
+#split_w = int(sys.argv[3])
+
+#func run
+#split_img_li = split_img(src_img,split_h,split_w)
+#img_li = read_img_cv("split_output")
+#random.shuffle(img_li)
+#cv.SaveImage("combine_out.jpg", combine_image(img_li))
+
