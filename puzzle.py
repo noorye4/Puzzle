@@ -16,10 +16,9 @@ import basic
 
 def calc_pixle_dis():
 
-    cv2_img_li = basic.read_img_cv2("split_output")
-    for i in cv2_img_li:
-       print i.shape
-
+    cv_img_li = basic.read_img_cv("split_output")
+    img = cv_img_li[0]
+    print cv.Get2D(img,0,0)
 
     #x =  cv2_img_li[0]
     #print x

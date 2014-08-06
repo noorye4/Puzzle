@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#/usr/bin/env python
 #-*- encoding: utf-8 -*-
 
 #python libray
@@ -38,16 +38,16 @@ def split_img(src_img,split_h,split_w):
             cv.SaveImage(op_name,tmp_img)
             fn += 1
 
-def combine_image(imageArray):
+def combine_image(image_array):
 
-    numImages = len(imageArray)
-    colWidth = max(imageArray, key=attrgetter('width')).width
-    rowHeight = max(imageArray, key=attrgetter('height')).height
+    numImages = len(image_array)
+    colWidth = max(image_array, key=attrgetter('width')).width
+    rowHeight = max(image_array, key=attrgetter('height')).height
     grid = int(math.ceil(math.sqrt(numImages)))
     combinedImage = cv.CreateImage((colWidth * grid, rowHeight * grid), 8, 3)
     cv.Set(combinedImage, cv.CV_RGB(50, 50, 50))
 
-    for index, img in enumerate(imageArray):
+    for index, img in enumerate(image_array):
         if img.nChannels == 1:
             colourImg = cv.CreateImage((img.width, img.height), 8, 3)
             cv.CvtColor(img, colourImg, cv.CV_GRAY2RGB)
@@ -87,21 +87,6 @@ def output_cv_img(src_img):
 
     output_dir = "final_output/out.jpg"
     cv.SaveImage(output_dir,src_img)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
