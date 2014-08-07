@@ -14,6 +14,7 @@ import numpy as np
 #puzzle library
 import basic
 
+"""
 def calc_pixle_dis():
 
     cv_img_li = basic.read_img_cv("split_output")
@@ -30,38 +31,45 @@ def calc_pixle_dis():
     cv.ShowImage("image",img)
     cv.WaitKey()
     cv.DestroyAllWindows()
+"""
 
-def calc_pixle_dis_1():
+def calc_pixle_dis(piece_a,piece_b,edge_depth):
 
-    cv2_img_li = basic.read_img_cv2("split_output")
-    img = cv2_img_li[0]
     index = 0
-    img_h = img.shape[0]
-    img_w = img.shape[1]
-    print img_h,img_w
+    piece_a_h = piece_a.shape[0]
+    piece_a_w = piece_a.shape[1]
+    print piece_a_h,piece_a_w
 
     #up side
-    for w in range(img_w):
-        for h in range(10):
-            img[h,w] = [0,0,0]
-    #left side
-    for h in range(img_h):
-        for w in range(10):
-            img[h,w] = [0,0,0]
+    for w in range(piece_a_w):
+        for h in range(edge_depth):
+            print piece_a[255-h,w]
+            #piece_a[h,w] = [0,0,0]
+            #piece_a[255-h,w] = [0,0,0]
     #down side
-    for w in range(img_w):
-        for h in range(10):
-            img[255-h,w] = [0,0,0]
-    #left side
-    for h in range(img_h):
-        for w in range(10):
-            img[h,255-w] = [0,0,0]
+    #for w in range(piece_a_w):
+        #for h in range(edge_depth):
+            #piece_a[255-h,w] = [0,0,0]
 
-
-    cv2.imshow("img",img)
+    cv2.imshow("piece_a",piece_a)
     cv2.waitKey()
     cv2.destroyAllWindows()
 
+#sqrt( (Xr-Yr)^2 + (Xg-Yg)^2 + (Xb-Yb)^2 )
+"""
+    #left side
+    for h in range(piece_a_h):
+        for w in range(10):
+            piece_a[h,w] = [0,0,0]
+    #left side
+    for h in range(piece_a_h):
+        for w in range(10):
+            piece_a[h,255-w] = [0,0,0]
 
+"""
 
-calc_pixle_dis_1()
+cv2_img_li = basic.read_img_cv2("split_output")
+piece_a = cv2_img_li[0]
+piece_b = cv2_img_li[1]
+edge_depth = 10
+calc_pixle_dis(piece_a,piece_b,edge_depth)
