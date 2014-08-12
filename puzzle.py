@@ -48,26 +48,35 @@ def piece_wrap(split_list):
 def calc_pixle_dis(src_piece_list,edge_depth = 10):
 
     for src_piece in src_piece_list:
-        #pixel calc
+
+        src_cv2_img = src_piece.piece_content
+        src_piece_h = src_cv2_img.shape[0]
+        src_piece_w = src_cv2_img.shape[1]
+
         for des_piece in src_piece_list:
             if des_piece.piece_id == src_piece.piece_id:
                 pass
             else:
-
-                src_cv2_img = src_piece.piece_content
                 des_cv2_img = des_piece.piece_content
-
-                src_piece_h = src_cv2_img.shape[0]
-                src_piece_w = src_cv2_img.shape[1]
                 des_piece_h = des_cv2_img.shape[0]
                 des_piece_w = des_cv2_img.shape[1]
 
                 for w in range(src_piece_w):
                     for h in range(edge_depth):
+
                         src_cv2_img[h,w] = [255,255,255]
                         src_cv2_img[(src_piece_w-1)-h,w] = [255,255,255]
                         src_cv2_img[w,h] = [255,255,255]
                         src_cv2_img[w,(src_piece_h-1)-h] = [255,255,255]
+
+                for w in range(des_piece_w):
+                    for h in range(edge_depth):
+
+                        des_cv2_img[h,w] = [255,255,255]
+                        des_cv2_img[(des_piece_w-1)-h,w] = [255,255,255]
+                        des_cv2_img[w,h] = [255,255,255]
+                        des_cv2_img[w,(des_piece_h-1)-h] = [255,255,255]
+
                 #cv2.imshow("piece",des_cv2_img)
                 #cv2.waitKey()
                 #cv2.destroyAllWindows()
