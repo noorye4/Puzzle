@@ -66,6 +66,7 @@ def read_img_cv2(img_dir):
     cv2_img_li = []
     for i in os.listdir(img_dir):
         cv2_img = cv2.imread(img_dir + "/" + i)
+        cv2_img = cv2_img.astype("uint32")
         cv2_img_li.append(cv2_img)
     return cv2_img_li
 
