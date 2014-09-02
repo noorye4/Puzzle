@@ -16,24 +16,20 @@ import numpy as np
 import basic
 
 class Piece:
-    def __init__(self,piece_id,edge_id,content,piece_pos,edge_diff):
+    def __init__(self,piece_id,edge_id,content,piece_pos,edge_diff,min_diff,match_id):
         self.piece_id = piece_id
         self.edge_id = edge_id
         self.content = content
         self.piece_pos = piece_pos
         self.edge_diff = edge_diff
+        self.min_diff = min_diff
+        self.match_id = match_id
 
 def get_edge_obj(src_piece_list,edge_depth=1):
-    """
-    up = 0
-    down = 1
-    left = 2
-    right = 3
-    """
     piece_id = 0
     edge_list = []
     piece_pos = [0,0]
-    #sqrt( (Xr-Yr)^2 + (Xg-Yg)^2 + (Xb-Yb)^2 )
+
     for src_piece in src_piece_list:
 
         src_piece_h = src_piece.shape[0]
@@ -44,6 +40,8 @@ def get_edge_obj(src_piece_list,edge_depth=1):
         edge_left = []
         edge_right = []
         edge_diff = 0
+        min_diff = 0
+        match_id = [0,0]
         #edge math
         for w in range(src_piece_w):
             for h in range(edge_depth):
@@ -59,7 +57,7 @@ def get_edge_obj(src_piece_list,edge_depth=1):
                 edge_up.append(pixel)
                 up_edge_id = 0
 
-                up_piece = Piece(piece_id,up_edge_id,edge_up,piece_pos,edge_diff)
+                up_piece = Piece(piece_id,up_edge_id,edge_up,piece_pos,edge_diff,min_diff,match_id)
 
                 #down
                 #src_piece[(src_piece_w-1)-h,w] = [255,255,255]
@@ -69,7 +67,7 @@ def get_edge_obj(src_piece_list,edge_depth=1):
                 pixel = [Xr_down,Xg_down,Xb_down]
                 edge_down.append(pixel)
                 down_edge_id = 1
-                down_piece = Piece(piece_id,down_edge_id,edge_down,piece_pos,edge_diff)
+                down_piece = Piece(piece_id,down_edge_id,edge_down,piece_pos,edge_diff,min_diff,match_id)
 
                 #left
                 #src_piece[w,h] = [255,255,255]
@@ -79,7 +77,7 @@ def get_edge_obj(src_piece_list,edge_depth=1):
                 pixel = [Xr_left,Xg_left,Xb_left]
                 edge_left.append(pixel)
                 left_edge_id = 2
-                left_piece= Piece(piece_id,left_edge_id,edge_left,piece_pos,edge_diff)
+                left_piece= Piece(piece_id,left_edge_id,edge_left,piece_pos,edge_diff,min_diff,match_id)
 
                 #right
                 #src_piece[w,(src_piece_h-1)-h] = [255,255,255]
@@ -89,7 +87,7 @@ def get_edge_obj(src_piece_list,edge_depth=1):
                 pixel = [Xr_right,Xg_right,Xb_right]
                 edge_right.append(pixel)
                 right_edge_id = 3
-                right_piece= Piece(piece_id,right_edge_id,edge_right,piece_pos,edge_diff)
+                right_piece= Piece(piece_id,right_edge_id,edge_right,piece_pos,edge_diff,min_diff,match_id)
 
         edge_list.append(up_piece)
         edge_list.append(down_piece)
@@ -122,43 +120,64 @@ def get_edge_diff(i_piece,j_piece):
 
         diff = math.sqrt((Xr-Yr)^2 + (Xg-Yg)^2 + (Xb-Yb)^2)
         total_diff = total_diff + diff
-    return total_diff
 
+
+
+
+
+    return total_diff
 
 
 def calc_piece_pos(edge_obj_list):
     index = 0
     tag = " | "
+    des_edge_obj_list = edge_obj_list
+
     for i in edge_obj_list:
         count = 0
-        for j in edge_obj_list:
+        for j in des_edge_obj_list:
 
             if i.piece_id == j.piece_id:
                 pass
             else:
-
-                print i.piece_id , i.edge_id ,tag, j.piece_id , j.edge_id
+                #print i.piece_id , i.edge_id ,tag, j.piece_id , j.edge_id
 
                 i.edge_diff = get_edge_diff(i,j)
-                #cur_diff = i.edge_diff
 
                 #print i.edge_diff
-                #if count == 0:
-                   #cur_diff = edge_diff
-                #if edge_diff < cur_diff :
-                    #cur_diff = edge_diff
+                if count == 0:
+                    cur_diff = i.edge_diff
+
+                if i.edge_diff < cur_diff :
+                    cur_diff = i.edge_diff
+                    #print '@'*20
+                    i.match_id[0] = j.piece_id
+                    i.match_id[1] = j.edge_id
+
 
                 print "-"*10
                 count += 1
                 index += 1
-        print cur_diff
+        print "mix   " + repr(cur_diff)
+        print i.match_id
+
+        i.min_diff = cur_diff
 
         print "#"*20
-    print index
+
+    print "="*30
+    print "calc counts : " + repr(index)
+    for i in edge_obj_list:
+        print "edge_id"
+        print i.piece_id,i.edge_id
+        print "diff "
+        print i.min_diff
+        print "match id"
+        print i.match_id
 
 cv2_img_li = basic.read_img_cv2("split_output")
 
-edge_obj_li = get_edge_obj(cv2_img_li)
+#edge_obj_li = get_edge_obj(cv2_img_li)
 
-calc_piece_pos(edge_obj_li)
+#calc_piece_pos(edge_obj_li)
 

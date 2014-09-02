@@ -16,7 +16,6 @@ import basic
 
 def main():
     #args
-    print " Usage : python main.py [src_image] [split_h] [split_w]"
     try:
         src_img = sys.argv[1]
         split_h = int(sys.argv[2])
@@ -28,10 +27,12 @@ def main():
 
         random.shuffle(split_img_li)
         out_img =  basic.combine_image(split_img_li)
+
+        
         basic.output_cv_img(out_img)
     except:
+        print " Usage : python main.py [src_image] [split_h] [split_w]"
         print "please input args !"
 
 if __name__ == '__main__':
     main()
-
