@@ -12,9 +12,13 @@ import cv2
 import numpy as np
 
 #puzzle library
-import basic
+from basic import *
 
-split_img_li = basic.read_img_cv("split_output")
-# random.shuffle(split_img_li)
-out_img =  basic.combine_image(split_img_li)
-basic.output_cv_img(out_img)
+img_li = read_img_cv("comb_output")
+out_img =  combine_image(img_li)
+
+cv.ShowImage("img",out_img)
+cv.WaitKey(0)
+cv.DestroyAllWindows()
+
+# output_cv_img(out_img)

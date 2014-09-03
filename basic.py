@@ -132,6 +132,19 @@ def output_random_img():
         cv2.imwrite(op_name, img)
         index += 1
 
+def output_comb_img(img_index):
+    folder = "comb_output"
+    cv2_img_li = read_img_cv2("random_output")
+    check_foler_exits(folder)
+    # random_order = gen_random_order(len(cv2_img_li))
+    index = 0
+    for img in cv2_img_li:
+        f_name = repr(img_index[index])
+        sufix = ".jpg"
+        op_name = folder + "/" + f_name + sufix
+        print op_name
+        cv2.imwrite(op_name, img)
+        index += 1
 
 def check_foler_exits(folder):
     if os.path.exists(folder):

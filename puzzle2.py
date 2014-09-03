@@ -14,9 +14,6 @@ import cv
 import cv2
 import numpy as np
 
-# puzzle library
-import basic
-
 
 class Piece:
 
@@ -57,31 +54,62 @@ def wrap_piece_obj(src_piece_list, edge_depth=1):
             for h in range(edge_depth):
 
                 # up
+                # src_piece[h,w] = [255,255,255]
+
                 Xr_up = (src_piece[h, w][0])
                 Xg_up = (src_piece[h, w][1])
                 Xb_up = (src_piece[h, w][2])
+
+                src_piece[h, w][0] = 0
+                src_piece[h, w][1] = 0
+                src_piece[h, w][2] = 0
 
                 pixel = [Xr_up, Xg_up, Xb_up]
                 edge_up.append(pixel)
 
                 # down
+                # src_piece[(src_piece_w-1)-h,w] = [255,255,255]
+
                 Xr_down = (src_piece[(src_piece_w - 1) - h, w][0])
                 Xg_down = (src_piece[(src_piece_w - 1) - h, w][1])
                 Xb_down = (src_piece[(src_piece_w - 1) - h, w][2])
+
+                src_piece[(src_piece_w - 1) - h, w][0] = 255
+                src_piece[(src_piece_w - 1) - h, w][1] = 255
+                src_piece[(src_piece_w - 1) - h, w][2] = 255
+
                 pixel = [Xr_down, Xg_down, Xb_down]
                 edge_down.append(pixel)
 
                 # left
+
+                # src_piece[w,h] = [255,255,255]
+
                 Xr_left = (src_piece[w, h][0])
                 Xg_left = (src_piece[w, h][1])
                 Xb_left = (src_piece[w, h][2])
+
+                src_piece[w, h][0] = 255
+                src_piece[w, h][1] = 255
+                src_piece[w, h][2] = 255
+
+
+
                 pixel = [Xr_left, Xg_left, Xb_left]
                 edge_left.append(pixel)
 
                 # right
+
+                # src_piece[w,(src_piece_h-1)-h] = [255,255,255]
+
                 Xr_right = (src_piece[w, (src_piece_h - 1) - h][0])
                 Xg_right = (src_piece[w, (src_piece_h - 1) - h][1])
                 Xb_right = (src_piece[w, (src_piece_h - 1) - h][2])
+
+                src_piece[w, (src_piece_h - 1) - h][0] = 255
+                src_piece[w, (src_piece_h - 1) - h][1] = 255
+                src_piece[w, (src_piece_h - 1) - h][2] = 255
+
                 pixel = [Xr_right, Xg_right, Xb_right]
                 edge_right.append(pixel)
 
@@ -90,6 +118,11 @@ def wrap_piece_obj(src_piece_list, edge_depth=1):
         edge_list.append(edge_left)
         edge_list.append(edge_right)
 
+        cv2.imshow('image',src_piece)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+
         piece = Piece(piece_id, edge_list, piece_pos)
         piece_obj_list.append(piece)
         piece_id += 1
@@ -97,14 +130,7 @@ def wrap_piece_obj(src_piece_list, edge_depth=1):
     return piece_obj_list
 
 
-def get_calc_edge(piece_obj_list, order_list):
-
-    """
-    up edge = 0
-    down edge = 1
-    left edge = 2
-    right edge = 3
-    """
+def get_calc_edge(piece_obj_list):
 
     x = 1
     y = 0
@@ -114,15 +140,12 @@ def get_calc_edge(piece_obj_list, order_list):
     left = 2
     right = 3
 
-    set_piece_pos(piece_obj_list, order_list)
-
     comb_list = []
     for src_piece in piece_obj_list:
         for des_piece in piece_obj_list:
             if src_piece.piece_id == des_piece.piece_id:
                 pass
             else:
-                # print src_piece.piece_id,des_piece.piece_id
                 src_x = src_piece.piece_pos[x]
                 src_y = src_piece.piece_pos[y]
 
@@ -130,49 +153,30 @@ def get_calc_edge(piece_obj_list, order_list):
                 des_y = des_piece.piece_pos[y]
 
                 if src_x + 1 == des_x and src_y == des_y:
-                    # print "right"
-                    # print src_piece.piece_id,des_piece.piece_id
                     comb_piece = [src_piece.piece_id, des_piece.piece_id]
-                    # comb_edge = ["right", "left"]
                     comb_edge = [right, left]
                     comb0 = [comb_piece, comb_edge]
                     if comb0:
                         comb_list.append(comb0)
-                    # print src_piece.piece_pos,des_piece.piece_pos
                 if src_x - 1 == des_x and src_y == des_y:
-                    # print "left"
-                    # print src_piece.piece_id,des_piece.piece_id
                     comb_piece = [src_piece.piece_id, des_piece.piece_id]
-                    # comb_edge = ["left", "right"]
                     comb_edge = [left, right]
                     comb1 = [comb_piece, comb_edge]
                     if comb1:
                         comb_list.append(comb1)
-                    # print src_piece.piece_pos,des_piece.piece_pos
                 if src_x == des_x and src_y + 1 == des_y:
-                    # print "down"
                     comb_piece = [src_piece.piece_id, des_piece.piece_id]
-                    # comb_edge = ["down", "up"]
                     comb_edge = [down, up]
                     comb2 = [comb_piece, comb_edge]
                     if comb2:
                         comb_list.append(comb2)
-                    # print src_piece.piece_pos,des_piece.piece_pos
                 if src_x == des_x and src_y - 1 == des_y:
-                    # print "up"
-                    # print src_piece.piece_id,des_piece.piece_id
                     comb_piece = [src_piece.piece_id, des_piece.piece_id]
                     comb_edge = ["up", "down"]
                     comb_edge = [up, down]
                     comb3 = [comb_piece, comb_edge]
                     if comb3:
                         comb_list.append(comb3)
-                    # print src_piece.piece_pos,des_piece.piece_pos
-        #     print "--------"
-        # print "========="
-
-    # for i in comb_list:
-    #     print i
 
     return comb_list
 
@@ -180,8 +184,8 @@ def get_calc_edge(piece_obj_list, order_list):
 def calc_order_diff(piece_obj_list, comb_list):
     total_edge_diff = 0
     for i in comb_list:
-        src_piece_id= i[0][0]
-        des_piece_id= i[0][1]
+        src_piece_id = i[0][0]
+        des_piece_id = i[0][1]
         src_edge_id = i[1][0]
         des_edge_id = i[1][1]
 
@@ -194,13 +198,14 @@ def calc_order_diff(piece_obj_list, comb_list):
 
     return total_edge_diff
 
-def calc_edge_diff(src_edge,des_edge):
+
+def calc_edge_diff(src_edge, des_edge):
 
     if len(src_edge) == len(des_edge):
         edge_len = len(src_edge)
-    if len(src_edge) >  len(des_edge):
+    if len(src_edge) > len(des_edge):
         edge_len = len(des_edge)
-    if len(src_edge) <  len(des_edge):
+    if len(src_edge) < len(des_edge):
         edge_len = len(src_edge)
 
     edge_diff = 0
@@ -214,9 +219,10 @@ def calc_edge_diff(src_edge,des_edge):
         Yg = des_edge[k][1]
         Yb = des_edge[k][2]
 
-        diff = math.sqrt((Xr-Yr)^2 + (Xg-Yg)^2 + (Xb-Yb)^2)
+        diff = math.sqrt((Xr - Yr) ^ 2 + (Xg - Yg) ^ 2 + (Xb - Yb) ^ 2)
         edge_diff = edge_diff + diff
     return edge_diff
+
 
 def remove_rep_comb(comb_list):
     for i in comb_list:
@@ -246,9 +252,11 @@ def get_all_order_list(order_list):
         out.append(x)
     return out
 
-def solu_to_index(solution,piece_obj_list):
-    for i in piece_obj_list:
-        print i.piece_pos
-    print "#"*10
-    for pos in solution.order_list: 
-        print pos
+
+def order_to_index(order_list, piece_obj_list):
+    set_piece_pos(piece_obj_list, order_list)
+    comb_order = sorted(piece_obj_list,key=lambda piece:piece.piece_pos) 
+    img_index = []
+    for i in comb_order:
+        img_index.append(i.piece_id)
+    return img_index
