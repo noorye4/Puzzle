@@ -18,6 +18,13 @@ import cv2
 import numpy as np
 from reconstruct import *
 
+class ImgIndex:
+
+    def __init__(self, img_index, img):
+        self.img_index = img_index
+        self.img = img
+
+
 def split_img(src_img, split_h, split_w):
     # check file is exists
     if os.path.exists("split_output"):
@@ -138,18 +145,45 @@ def output_random_img():
     else:
         print "split_output folder not exist"
 
-def output_solu_img(img_index):
-    folder = "comb_output"
-    cv2_img_li = read_img_cv2("random_output")
+def output_solu_img(solutions):
+    folder = "solu_output"
+    cv_img_li = read_img_cv("random_output")
     check_folder_exits(folder)
-    index = 0
-    for img in cv2_img_li:
-        f_name = repr(img_index[index])
-        sufix = ".jpg"
-        op_name = folder + "/" + f_name + sufix
-        print op_name
-        cv2.imwrite(op_name, img)
-        index += 1
+
+    img_orders = []
+    for i in solutions:
+        img_order = order_to_index(i.order_list, i.piece_obj_list)
+        img_orders.append(img_order)
+
+    total_img_indexs = []
+    for order in img_orders:
+        count = 0
+        img_indexs = []
+        for img in cv_img_li:
+            img_index = ImgIndex(img_order[count], img)
+            img_indexs.append(img_index)
+            count += 1
+        total_img_indexs.append(img_indexs)
+
+    for img_indexs in total_img_indexs:
+        img_li = []
+        img_orders = sorted(img_indexs,key=lambda img_index:img_index.img_index)
+        # for img_orders in img_indexs:
+        #     img_li.append(img_orders.img)
+        # comb_img = combine_image(img_li)
+
+        # cv.ShowImage("img",comb_img)
+        # cv.WaitKey(0)
+        # cv.DestroyAllWindows()
+
+        # for img in cv_img_li:
+        #     f_name = repr(img[count])
+        #     sufix = ".jpg"
+        #     op_name = folder + "/" + f_name + sufix
+        #     print op_name
+        #     cv2.imwrite(op_name, img)
+        #     count += 1
+        # print "#"*20
 
 def check_folder_exits(folder):
     if os.path.exists(folder):
@@ -186,3 +220,4 @@ def load_solution(solution_sol):
         except EOFError:
             print "load done..."
             return solutions
+    return solutions
