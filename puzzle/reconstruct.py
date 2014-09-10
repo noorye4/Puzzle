@@ -7,6 +7,7 @@ import os
 import random
 import math
 from itertools import permutations
+from time import time
 
 
 # third party library
@@ -157,6 +158,8 @@ def calc_order_diff(piece_obj_list, comb_list):
 
 def calc_edge_diff(src_edge, des_edge):
 
+    s = time()
+
     if len(src_edge) == len(des_edge):
         edge_len = len(src_edge)
     if len(src_edge) > len(des_edge):
@@ -177,6 +180,11 @@ def calc_edge_diff(src_edge, des_edge):
 
         diff = math.sqrt((Xr - Yr) ^ 2 + (Xg - Yg) ^ 2 + (Xb - Yb) ^ 2)
         edge_diff = edge_diff + diff
+
+    e = time()
+
+    # a = e - s
+    # print a
     return edge_diff
 
 

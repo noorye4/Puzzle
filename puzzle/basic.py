@@ -153,29 +153,36 @@ def output_solu_img(solutions):
     img_orders = []
     for i in solutions:
         img_order = order_to_index(i.order_list, i.piece_obj_list)
+        # print img_order
         img_orders.append(img_order)
 
     total_img_indexs = []
     for order in img_orders:
+        # print order 
         count = 0
         img_indexs = []
         for img in cv_img_li:
-            img_index = ImgIndex(img_order[count], img)
+            img_index = ImgIndex(order[count], img)
+            # print order[count]
             img_indexs.append(img_index)
             count += 1
+        # print "#"*10
         total_img_indexs.append(img_indexs)
 
+    count = 0
     for img_indexs in total_img_indexs:
+        # print img_indexs[0].img_index,img_indexs[1].img_index,img_indexs[2].img_index,img_indexs[3].img_index
         img_li = []
-        img_orders = sorted(img_indexs,key=lambda img_index:img_index.img_index)
-        # for img_orders in img_indexs:
-        #     img_li.append(img_orders.img)
-        # comb_img = combine_image(img_li)
+        img_indexs = sorted(img_indexs,key=lambda img_index:img_index.img_index)
+        for img_orders in img_indexs:
+            img_li.append(img_orders.img)
+        comb_img = combine_image(img_li)
 
-        # cv.ShowImage("img",comb_img)
-        # cv.WaitKey(0)
-        # cv.DestroyAllWindows()
-
+        print count
+        cv.ShowImage("img",comb_img)
+        cv.WaitKey()
+        cv.DestroyAllWindows()
+        count += 1
         # for img in cv_img_li:
         #     f_name = repr(img[count])
         #     sufix = ".jpg"
