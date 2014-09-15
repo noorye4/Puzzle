@@ -1,39 +1,55 @@
-import os
-import random
 import sys
 
-#third party library
-import cv
-import cv2
-import numpy as np
+class ProgressBar():
+    DEFAULT_BAR_LENGTH = float(65)
 
-#puzzle library
-sys.path.append("..")
-from itertools import *
-from puzzle.basic import *
-from puzzle.reconstruct import *
+    def __init__(self, end, start=0):
+        self.end    = end
+        self.start  = start
+        self._barLength = ProgressBar.DEFAULT_BAR_LENGTH
 
+        self.setLevel(self.start)
+        self._plotted = False
 
-# src = gen_order_list(3, 3)
-# src = [(0,0),(0,1),(1,0),(1,1)]
-# src = [0,1,2,3]
+    def setLevel(self, level, initial=False):
+        self._level = level
+        if level < self.start:  self._level = self.start
+        if level > self.end:    self._level = self.end
 
+        self._ratio = float(self._level - self.start) / float(self.end - self.start)
+        self._levelChars = int(self._ratio * self._barLength)
 
+    def plotProgress(self):
+        sys.stdout.write("\r  %3i%% [%s%s]" %(
+            int(self._ratio * 100.0),
+            '=' * int(self._levelChars),
+            ' ' * int(self._barLength - self._levelChars),
+        ))
+        self._plotted = True
 
-# for i in src:
-    # print i
-# x = list(permutations(li))
+    def setAndPlot(self, level):
+        oldChars = self._levelChars
+        self.setLevel(level)
+        if (not self._plotted) or (oldChars != self._levelChars):
+            self.plotProgress()
 
-# x = set(x)
-# print len(x)
+    def __del__(self):
+        sys.stdout.write("\n")
 
+if __name__ == "__main__":
+    import time
+    count = 5
+    print "starting things:"
 
-# src = [1, 2, 3]
+    pb = ProgressBar(count)
 
-# src =  (permutations(src,len(src)))
+    curProgress = 0
+    pb.plotProgress()
+    while curProgress <= count:
+        pb.setAndPlot(curProgress)
+        curProgress += 1
+        time.sleep(1)
+    del pb
 
-
-
-# for i in src:
-#     print i
+    print "done"
 

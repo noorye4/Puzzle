@@ -26,10 +26,9 @@ class Piece:
 
 class Solution:
 
-    def __init__(self, order_list, global_diff ,piece_obj_list):
+    def __init__(self, order_list, global_diff):
         self.order_list = order_list
         self.global_diff = global_diff
-        self.piece_obj_list = piece_obj_list
 
 
 def wrap_piece_obj(src_piece_list, edge_depth=1):
@@ -129,7 +128,6 @@ def parse_calc_edge(piece_obj_list):
                         comb_list.append(comb2)
                 if src_x == des_x and src_y - 1 == des_y:
                     comb_piece = [src_piece.piece_id, des_piece.piece_id]
-                    comb_edge = ["up", "down"]
                     comb_edge = [up, down]
                     comb3 = [comb_piece, comb_edge]
                     if comb3:
@@ -178,7 +176,7 @@ def calc_edge_diff(src_edge, des_edge):
         Yg = des_edge[k][1]
         Yb = des_edge[k][2]
 
-        diff = math.sqrt((Xr - Yr) ^ 2 + (Xg - Yg) ^ 2 + (Xb - Yb) ^ 2)
+        diff = math.sqrt((Xr - Yr) ** 2 + (Xg - Yg) ** 2 + (Xb - Yb) ** 2)
         edge_diff = edge_diff + diff
 
     e = time()

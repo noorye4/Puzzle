@@ -18,6 +18,7 @@ import cv2
 import numpy as np
 from reconstruct import *
 
+
 class ImgIndex:
 
     def __init__(self, img_index, img):
@@ -139,50 +140,66 @@ def output_random_img():
             f_name = repr(random_order[index])
             sufix = ".jpg"
             op_name = output_folder + "/" + f_name + sufix
-            print op_name
+            # print op_name
             cv2.imwrite(op_name, img)
             index += 1
     else:
         print "split_output folder not exist"
 
-def output_solu_img(solutions):
+
+def output_solu_img(solutions,piece_obj_list):
     folder = "solu_output"
     cv_img_li = read_img_cv("random_output")
     check_folder_exits(folder)
 
     img_orders = []
     for i in solutions:
-        img_order = order_to_index(i.order_list, i.piece_obj_list)
-        # print img_order
+        img_order = order_to_index(i.order_list,piece_obj_list)
         img_orders.append(img_order)
 
-    total_img_indexs = []
     for order in img_orders:
-        # print order 
+        print order
         count = 0
         img_indexs = []
         for img in cv_img_li:
+            # cv.ShowImage("img", img)
+            # cv.WaitKey()
+            # cv.DestroyAllWindows()
             img_index = ImgIndex(order[count], img)
-            # print order[count]
             img_indexs.append(img_index)
             count += 1
-        # print "#"*10
-        total_img_indexs.append(img_indexs)
 
-    count = 0
-    for img_indexs in total_img_indexs:
-        # print img_indexs[0].img_index,img_indexs[1].img_index,img_indexs[2].img_index,img_indexs[3].img_index
+        s = sorted(img_indexs,key = lambda img_index:img_index.img_index)
+
         img_li = []
-        img_indexs = sorted(img_indexs,key=lambda img_index:img_index.img_index)
-        for img_orders in img_indexs:
-            img_li.append(img_orders.img)
-        comb_img = combine_image(img_li)
+        for i in s:
+            img_li.append(i.img)
+            # print i.img_index
+            # cv.ShowImage("img", i.img)
+            # cv.WaitKey()
+            # cv.DestroyAllWindows()
 
-        print count
-        cv.ShowImage("img",comb_img)
+        out_img =  combine_image(img_li)
+
+        cv.ShowImage("img", out_img)
         cv.WaitKey()
         cv.DestroyAllWindows()
-        count += 1
+
+
+    # count = 0
+    # for img_indexs in total_img_indexs:
+    #     # print
+    #     # img_indexs[0].img_index,img_indexs[1].img_index,img_indexs[2].img_index,img_indexs[3].img_index
+    #     img_li = []
+    #     img_indexs = sorted(
+    #         img_indexs, key=lambda img_index: img_index.img_index)
+    #     for img_orders in img_indexs:
+    #         img_li.append(img_orders.img)
+    #     comb_img = combine_image(img_li)
+
+    #     print count
+
+    #     count += 1
         # for img in cv_img_li:
         #     f_name = repr(img[count])
         #     sufix = ".jpg"
@@ -191,6 +208,7 @@ def output_solu_img(solutions):
         #     cv2.imwrite(op_name, img)
         #     count += 1
         # print "#"*20
+
 
 def check_folder_exits(folder):
     if os.path.exists(folder):
@@ -217,8 +235,9 @@ def gen_order_list(x, y):
             pos_li.append(pos)
     return pos_li
 
+
 def load_solution(solution_sol):
-    f = open(solution_sol,"rb")
+    f = open(solution_sol, "rb")
     solutions = []
     while 1:
         try:
