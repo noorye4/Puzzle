@@ -21,35 +21,22 @@ output_txt = output + ".txt"
 output_sol = output + ".sol"
 
 cv2_img_li = read_img_cv2(input_folder)
-
 piece_obj_list = wrap_piece_obj(cv2_img_li, 1)
-
 order_list = gen_order_list(split_w, split_h)
-
 set_piece_pos(piece_obj_list, order_list)
-
 all_order_list = get_all_order_list(order_list)
-
 solution_list = []
 
-index = 0
-for order_list in all_order_list:
+combs = len(all_order_list)
 
-    s = time()
-
-    set_piece_pos(piece_obj_list, order_list)
+for i in progressbar(range(combs), "Computing: ", 40):
+    set_piece_pos(piece_obj_list, all_order_list[i])
     comb_list = parse_calc_edge(piece_obj_list)
     comb_list = remove_rep_comb(comb_list)
 
     global_diff = calc_order_diff(piece_obj_list, comb_list)
     solution = Solution(order_list, global_diff)
     solution_list.append(solution)
-    index += 1
-
-    e = time()
-
-    a = e - s
-    print a
 
 solution_list = sorted(
     solution_list, key=lambda solution: solution.global_diff)

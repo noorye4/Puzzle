@@ -11,7 +11,6 @@ from string import split
 from operator import attrgetter
 from itertools import permutations
 
-
 # third party library
 import cv
 import cv2
@@ -147,18 +146,19 @@ def output_random_img():
         print "split_output folder not exist"
 
 
-def output_solu_img(solutions,piece_obj_list):
+def output_solu_img(solutions, piece_obj_list):
     folder = "solu_output"
     cv_img_li = read_img_cv("random_output")
     check_folder_exits(folder)
 
     img_orders = []
     for i in solutions:
-        img_order = order_to_index(i.order_list,piece_obj_list)
+        img_order = order_to_index(i.order_list, piece_obj_list)
         img_orders.append(img_order)
 
+    out_id = 0
     for order in img_orders:
-        print order
+        # print order
         count = 0
         img_indexs = []
         for img in cv_img_li:
@@ -169,7 +169,7 @@ def output_solu_img(solutions,piece_obj_list):
             img_indexs.append(img_index)
             count += 1
 
-        s = sorted(img_indexs,key = lambda img_index:img_index.img_index)
+        s = sorted(img_indexs, key=lambda img_index: img_index.img_index)
 
         img_li = []
         for i in s:
@@ -179,35 +179,14 @@ def output_solu_img(solutions,piece_obj_list):
             # cv.WaitKey()
             # cv.DestroyAllWindows()
 
-        out_img =  combine_image(img_li)
+        out_id += 1
+        out_img = combine_image(img_li)
+        op = "solu_output" + "\\" + repr(out_id) + ".jpg"
+        cv.SaveImage(op, out_img)
 
-        cv.ShowImage("img", out_img)
-        cv.WaitKey()
-        cv.DestroyAllWindows()
-
-
-    # count = 0
-    # for img_indexs in total_img_indexs:
-    #     # print
-    #     # img_indexs[0].img_index,img_indexs[1].img_index,img_indexs[2].img_index,img_indexs[3].img_index
-    #     img_li = []
-    #     img_indexs = sorted(
-    #         img_indexs, key=lambda img_index: img_index.img_index)
-    #     for img_orders in img_indexs:
-    #         img_li.append(img_orders.img)
-    #     comb_img = combine_image(img_li)
-
-    #     print count
-
-    #     count += 1
-        # for img in cv_img_li:
-        #     f_name = repr(img[count])
-        #     sufix = ".jpg"
-        #     op_name = folder + "/" + f_name + sufix
-        #     print op_name
-        #     cv2.imwrite(op_name, img)
-        #     count += 1
-        # print "#"*20
+        # cv.ShowImage("img", out_img)
+        # cv.WaitKey()
+        # cv.DestroyAllWindows()
 
 
 def check_folder_exits(folder):
@@ -247,3 +226,20 @@ def load_solution(solution_sol):
             print "load done..."
             return solutions
     return solutions
+
+
+def progressbar(it, prefix="", size=60):
+    count = len(it)
+
+    def _show(_i):
+        x = int(size * _i / count)
+        sys.stdout.write("%s[%s%s] %i/%i\r" %
+                         (prefix, "#" * x, "." * (size - x), _i, count))
+        sys.stdout.flush()
+
+    _show(0)
+    for i, item in enumerate(it):
+        yield item
+        _show(i + 1)
+    sys.stdout.write("\n")
+    sys.stdout.flush()
