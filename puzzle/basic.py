@@ -103,7 +103,7 @@ def read_img_cv(img_dir):
         cv_img = cv.LoadImage(img_dir + "/" + i)
         cv_img_li.append(cv_img)
     return cv_img_li
-
+#
 
 def output_cv_img(src_img):
 
