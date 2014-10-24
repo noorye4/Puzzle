@@ -14,7 +14,7 @@ Then we split the image 2 * 2 pieces,and random sorted it.
     python script-split.py ../image/lena.jpg 2 2
     python script-random.py
 
-in random_output folder  
+in [random_output folder]  
 like this  
 
 ![split](demo/split.png)  
