@@ -11,6 +11,7 @@ input image
 Then we split the image 2 * 2 pieces 
 
 ##Usage:  
+    cd script
     python script-split.py ../image/lena.jpg 2 2
 
 like this:
