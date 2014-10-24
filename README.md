@@ -6,7 +6,7 @@ Example:
 
 input picture
 
-![lena](demo/comb.jpg)
+![lena](image/lena.jpg)
 
 Then we split the picture ,use this script path (script/script-split)
 
