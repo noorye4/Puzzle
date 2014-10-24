@@ -14,5 +14,6 @@ Then we split the image 2 * 2 pieces
     cd script  
     python script-split.py ../image/lena.jpg 2 2
 
-like this:
+like this:  
+
 ![split](demo/comb.jpg)
