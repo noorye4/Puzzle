@@ -15,7 +15,3 @@ Then we split the image 2 * 2 pieces
     python script-split.py ../image/lena.jpg 2 2
 
 like this:
-
-![piece](demo/comb.jpg)
-
-
