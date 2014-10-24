@@ -8,11 +8,14 @@ input image
 
 ![lena](image/lena.jpg)
 
-Then we split the image 2 * 2 pieces 
+Then we split the image 2 * 2 pieces,and random sorted it.
 
-##Usage:  
     cd script  
     python script-split.py ../image/lena.jpg 2 2
+    python script-random.py
+
+![split](demo/split.jpg)
+
 
 like this:  
 

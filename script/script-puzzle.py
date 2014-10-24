@@ -35,7 +35,7 @@ for i in progressbar(range(combs), "Computing: ", 40):
     comb_list = remove_rep_comb(comb_list)
 
     global_diff = calc_order_diff(piece_obj_list, comb_list)
-    solution = Solution(order_list, global_diff)
+    solution = Solution(all_order_list[i], global_diff)
     solution_list.append(solution)
 
 solution_list = sorted(
@@ -49,6 +49,7 @@ try:
     for i in solution_list:
         str_global_diff = repr(i.global_diff)
         str_order_list = repr(i.order_list)
+        print i.order_list
         str_index = repr(index)
 
         f_txt.write(str_index + "\r\n")
