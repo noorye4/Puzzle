@@ -2,15 +2,19 @@
 The project is to solve reconstruction puzzle problem.
 It use ant colony optimization algorithm.
 
-Example:
+##Example:
 
-input picture
+input image
 
 ![lena](image/lena.jpg)
 
-Then we split the picture ,use this script path (script/script-split)
+Then we split the image 2 * 2 pieces 
 
 ##Usage:  
-    python script-split.py [src_image] [split_h] [split_w]
+    python script-split.py ../image/lena.jpg 2 2
+
+like this:
+
+![piece](demo/comb.jpg)
 
 
