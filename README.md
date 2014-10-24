@@ -10,7 +10,7 @@ input picture
 
 Then we split the picture ,use this script path (script/script-split)
 
-Usage:
+##Usage:  
     python script-split.py [src_image] [split_h] [split_w]
 
 
