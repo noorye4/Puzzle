@@ -10,16 +10,15 @@ input image
 
 Then we split the image 2 * 2 pieces,and random sorted it.
 
-    cd script  
+    cd script
     python script-split.py ../image/lena.jpg 2 2
     python script-random.py
 
-in [random_output folder]  
-like this  
+in random_output folder
+like this
 
-![split](demo/split.png)  
+![split](demo/split.png)
 
 
 
-like this:  
 
