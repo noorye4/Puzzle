@@ -6,7 +6,7 @@ It use ant colony optimization algorithm.
 
 input image
 
-![lena](image/lena.jpg)
+![lena](demo/lena.jpg)
 
 Then we split the image 2 * 2 pieces,and random sorted it.
 
@@ -17,8 +17,9 @@ Then we split the image 2 * 2 pieces,and random sorted it.
 in random_output folder
 like this
 
-![split](demo/split.png)
+![split](demo/lena_2_2.png)
 
+or
 
-
+![split](demo/lena_3_3.png)
 
