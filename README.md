@@ -23,11 +23,11 @@ or split 3 * 3
 
 ![split](demo/lena_3_3.png)
 
-We use Enumerate algorithm to calcate each combine of piece and otherise
+We use enumerate algorithm to calcate each combine of piece and otherise
 
     python script-puzzle random_output 2 2 lena
 
-now the diricetion has lena.sol file
+now the directory has lena.sol file
 the file is store all combination information of pieces
 
 We need output the lena.sol image
