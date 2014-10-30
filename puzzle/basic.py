@@ -181,7 +181,7 @@ def output_solu_img(solutions, piece_obj_list):
 
         out_id += 1
         out_img = combine_image(img_li)
-        op = "solu_output" + "\\" + repr(out_id) + ".jpg"
+        op = "solu_output" + "//" + repr(out_id) + ".jpg"
         cv.SaveImage(op, out_img)
 
         # cv.ShowImage("img", out_img)

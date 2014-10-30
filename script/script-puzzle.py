@@ -12,10 +12,9 @@ from puzzle.basic import *
 from puzzle.reconstruct import *
 
 input_folder = sys.argv[1]
-
-output = str(sys.argv[4])
 split_h = int(sys.argv[2])
 split_w = int(sys.argv[3])
+output = str(sys.argv[4])
 
 output_txt = output + ".txt"
 output_sol = output + ".sol"
