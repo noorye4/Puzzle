@@ -19,7 +19,7 @@ like this
 
 ![split](demo/lena_2_2.png)
 
-or
+or split 3 * 3
 
 ![split](demo/lena_3_3.png)
 
