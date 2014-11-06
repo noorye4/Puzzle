@@ -156,6 +156,8 @@ def calc_order_diff(piece_obj_list, comb_list):
 
 def calc_edge_diff(src_edge, des_edge):
 
+    s = time()
+
     if len(src_edge) == len(des_edge):
         edge_len = len(src_edge)
     if len(src_edge) > len(des_edge):
@@ -170,14 +172,20 @@ def calc_edge_diff(src_edge, des_edge):
         Xg = src_edge[k][1].astype(float)
         Xb = src_edge[k][2].astype(float)
 
+        #print type(Xr)
+
         Yr = des_edge[k][0].astype(float)
         Yg = des_edge[k][1].astype(float)
         Yb = des_edge[k][2].astype(float)
 
-        diff = np.sqrt((Xr - Yr) ** 2 + (Xg - Yg) ** 2 + (Xb - Yb) ** 2)
-        #diff = math.sqrt((Xr - Yr) ** 2 + (Xg - Yg) ** 2 + (Xb - Yb) ** 2)
+        #diff = np.sqrt((Xr - Yr) ** 2 + (Xg - Yg) ** 2 + (Xb - Yb) ** 2)
+        diff = math.sqrt((Xr - Yr) ** 2 + (Xg - Yg) ** 2 + (Xb - Yb) ** 2)
         edge_diff = edge_diff + diff
 
+    e = time()
+
+    a = e - s
+    print a
     return edge_diff
 
 

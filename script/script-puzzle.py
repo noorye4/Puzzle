@@ -48,7 +48,7 @@ try:
     for i in solution_list:
         str_global_diff = repr(i.global_diff)
         str_order_list = repr(i.order_list)
-        print i.order_list
+        #print i.order_list
         str_index = repr(index)
 
         f_txt.write(str_index + "\r\n")
