@@ -1,4 +1,5 @@
 Thumbs.db
+*.pyc
 puzzle/*.pyc
 puzzle/*.pyc
 script/*.png
