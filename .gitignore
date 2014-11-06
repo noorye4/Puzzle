@@ -1,5 +1,10 @@
 Thumbs.db
 *.pyc
+script/split_output
+script/random_output
+script/solu_output
+
+
 puzzle/*.pyc
 puzzle/*.pyc
 script/*.png

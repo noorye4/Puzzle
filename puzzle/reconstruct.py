@@ -53,36 +53,57 @@ def wrap_piece_obj(src_piece_list, edge_depth=1):
         for w in range(src_piece_w):
             for h in range(edge_depth):
                 # up
-                # src_piece[h,w] = [0,0,0]
-                edge_up.append(src_piece[h, w])
+                if h % 2 == 0:
+                    src_piece[h,w] = [0,0,0]
+                    src_piece[src_piece_h-edge_depth+h,w] = [0,0,0]
+                else:
+                    src_piece[h,w] = [255,255,255]
+                    src_piece[src_piece_h-edge_depth+h,w] = [255,255,255]
 
+
+                edge_up.append(src_piece[h, w])
                 # down
-                # src_piece[src_piece_h-edge_depth+h,w] = [0,0,0]
+                #src_piece[src_piece_h-edge_depth+h,w] = [0,0,0]
                 edge_down.append(src_piece[src_piece_h - edge_depth + h, w])
 
         for h in range(src_piece_h):
             for w in range(edge_depth):
                 # left
-                # src_piece[h,w] = [0,0,0]
-                edge_left.append(src_piece[h, w])
+                if w % 2 == 0:
+                    src_piece[h,w] = [0,0,0]
+                    src_piece[h,src_piece_w-edge_depth+w] = [0,0,0]
+                else:
+                    src_piece[h,w] = [255,255,255]
+                    src_piece[h,src_piece_w-edge_depth+w] = [255,255,255]
 
+                #src_piece[h,w] = [0,0,0]
+                edge_left.append(src_piece[h, w])
                 # right
-                # src_piece[h,src_piece_w-edge_depth+w] = [0,0,0]
+                #src_piece[h,src_piece_w-edge_depth+w] = [0,0,0]
                 edge_right.append(src_piece[h, src_piece_w - edge_depth + w])
 
+        #modify
         edge_list.append(edge_up)
         edge_list.append(edge_down)
         edge_list.append(edge_left)
         edge_list.append(edge_right)
 
-        # cv2.imshow('image', src_piece)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
+        cv2.imshow('image', src_piece)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
         piece = Piece(piece_id, edge_list, piece_pos)
         piece_obj_list.append(piece)
         piece_id += 1
 
+    for i in piece_obj_list[0].edge_list[0]:
+        print i
+    for piece in piece_obj_list:
+        print "#"*50
+        for k in piece.edge_list:
+            print "@"*50
+            for j in k:
+                print j
     return piece_obj_list
 
 
@@ -156,23 +177,23 @@ def calc_order_diff(piece_obj_list, comb_list):
 
 def calc_edge_diff(src_edge, des_edge):
 
-    if len(src_edge) == len(des_edge):
-        edge_len = len(src_edge)
-    if len(src_edge) > len(des_edge):
-        edge_len = len(des_edge)
-    if len(src_edge) < len(des_edge):
-        edge_len = len(src_edge)
+    #if len(src_edge) == len(des_edge):
+    edge_len = len(src_edge)
+    #if len(src_edge) > len(des_edge):
+        #edge_len = len(des_edge)
+    #if len(src_edge) < len(des_edge):
+        #edge_len = len(src_edge)
 
     edge_diff = 0.0
-    for k in range(edge_len):
+    for pixel in range(edge_len):
 
-        Xr = src_edge[k][0].astype(float)
-        Xg = src_edge[k][1].astype(float)
-        Xb = src_edge[k][2].astype(float)
+        Xr = src_edge[pixel][0].astype(float)
+        Xg = src_edge[pixel][1].astype(float)
+        Xb = src_edge[pixel][2].astype(float)
 
-        Yr = des_edge[k][0].astype(float)
-        Yg = des_edge[k][1].astype(float)
-        Yb = des_edge[k][2].astype(float)
+        Yr = des_edge[pixel][0].astype(float)
+        Yg = des_edge[pixel][1].astype(float)
+        Yb = des_edge[pixel][2].astype(float)
 
         diff = np.sqrt((Xr - Yr) ** 2 + (Xg - Yg) ** 2 + (Xb - Yb) ** 2)
         #diff = math.sqrt((Xr - Yr) ** 2 + (Xg - Yg) ** 2 + (Xb - Yb) ** 2)

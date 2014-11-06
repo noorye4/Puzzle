@@ -38,14 +38,20 @@ def split_img(src_img, split_h, split_w):
     fn = 0
     ceil_height = img.height / split_h
     ceil_width = img.width / split_w
+    print ceil_width,ceil_height
+    print "#"*10
     tmp_img = img
     sp_img_li = []
     for i in range(split_h):
         for j in range(split_w):
             tmp_img = img
             op_name = fp + repr(fn) + suffix
+            x =  i* ceil_width
+            y =  j* ceil_height
+            print x,y
             cv.SetImageROI(
-                tmp_img, (i + j * ceil_width, j + i * ceil_height, ceil_width, ceil_height))
+                tmp_img,
+                (j * ceil_width, i * ceil_height, ceil_width, ceil_height))
             sp_img_li.append(tmp_img)
             cv.SaveImage(op_name, tmp_img)
             fn += 1

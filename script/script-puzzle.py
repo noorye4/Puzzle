@@ -11,6 +11,9 @@ sys.path.append("..")
 from puzzle.basic import *
 from puzzle.reconstruct import *
 
+if (len(sys.argv)) < 2:
+    print "Usage python script-puzzle [input folder] [split_h] [split_w] [output]"
+
 input_folder = sys.argv[1]
 split_h = int(sys.argv[2])
 split_w = int(sys.argv[3])
