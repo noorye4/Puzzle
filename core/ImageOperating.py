@@ -15,7 +15,7 @@ from itertools import permutations
 import cv
 import cv2
 import numpy as np
-from reconstruct import *
+from Reconstruct import *
 
 
 class ImgIndex:
@@ -38,8 +38,8 @@ def split_img(src_img, split_h, split_w):
     fn = 0
     ceil_height = img.height / split_h
     ceil_width = img.width / split_w
-    print ceil_width,ceil_height
-    print "#"*10
+    #print ceil_width,ceil_height
+    #print "#"*10
     tmp_img = img
     sp_img_li = []
     for i in range(split_h):
@@ -48,7 +48,7 @@ def split_img(src_img, split_h, split_w):
             op_name = fp + repr(fn) + suffix
             x =  i* ceil_width
             y =  j* ceil_height
-            print x,y
+            #print x,y
             cv.SetImageROI(
                 tmp_img,
                 (j * ceil_width, i * ceil_height, ceil_width, ceil_height))

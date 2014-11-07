@@ -50,36 +50,50 @@ def wrap_piece_obj(src_piece_list, edge_depth=1):
         edge_left = []
         edge_right = []
 
+        print "#"*100
+
         for w in range(src_piece_w):
             for h in range(edge_depth):
-                # up
+                """
                 if h % 2 == 0:
-                    src_piece[h,w] = [0,0,0]
-                    src_piece[src_piece_h-edge_depth+h,w] = [0,0,0]
+                    x = 1
+                    # up
+                    #src_piece[h,w] = [0,0,0]
+                    #print src_piece[h,w]
+                    # down
+                    #src_piece[src_piece_h-edge_depth+h,w] = [0,0,0]
+                    #print src_piece[src_piece_h-edge_depth+h,w]
                 else:
-                    src_piece[h,w] = [255,255,255]
-                    src_piece[src_piece_h-edge_depth+h,w] = [255,255,255]
-
+                    x = 1
+                    # up
+                    #src_piece[h,w] = [255,255,255]
+                    #print src_piece[h,w]
+                    # down
+                    #src_piece[src_piece_h-edge_depth+h,w] = [255,255,255]
+                    #print src_piece[src_piece_h-edge_depth+h,w]
+                    """
 
                 edge_up.append(src_piece[h, w])
-                # down
-                #src_piece[src_piece_h-edge_depth+h,w] = [0,0,0]
                 edge_down.append(src_piece[src_piece_h - edge_depth + h, w])
 
         for h in range(src_piece_h):
             for w in range(edge_depth):
-                # left
                 if w % 2 == 0:
-                    src_piece[h,w] = [0,0,0]
+                    # left
+                    #src_piece[h,w] = [0,0,0]
+                    #print src_piece[h,w]
+                    # right
                     src_piece[h,src_piece_w-edge_depth+w] = [0,0,0]
+                    print src_piece[h,src_piece_w-edge_depth+w]
                 else:
-                    src_piece[h,w] = [255,255,255]
+                    # left
+                    #src_piece[h,w] = [255,255,255]
+                    #print src_piece[h,w]
+                    # right
                     src_piece[h,src_piece_w-edge_depth+w] = [255,255,255]
+                    print src_piece[h,src_piece_w-edge_depth+w]
 
-                #src_piece[h,w] = [0,0,0]
                 edge_left.append(src_piece[h, w])
-                # right
-                #src_piece[h,src_piece_w-edge_depth+w] = [0,0,0]
                 edge_right.append(src_piece[h, src_piece_w - edge_depth + w])
 
         #modify
@@ -96,14 +110,14 @@ def wrap_piece_obj(src_piece_list, edge_depth=1):
         piece_obj_list.append(piece)
         piece_id += 1
 
-    for i in piece_obj_list[0].edge_list[0]:
-        print i
-    for piece in piece_obj_list:
-        print "#"*50
-        for k in piece.edge_list:
-            print "@"*50
-            for j in k:
-                print j
+    #for i in piece_obj_list[0].edge_list[0]:
+        #print i
+    #for piece in piece_obj_list:
+        #print "#"*50
+        #for k in piece.edge_list:
+            #print "@"*50
+            #for j in k:
+                #print j
     return piece_obj_list
 
 

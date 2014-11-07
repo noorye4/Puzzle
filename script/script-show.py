@@ -7,8 +7,8 @@ import pickle
 
 #puzzle library
 sys.path.append("..")
-from puzzle.basic import *
-from puzzle.reconstruct import *
+from core.ImageOperating import *
+from core.Reconstruct import *
 
 input_sol = sys.argv[1]
 solutions = load_solution(input_sol)

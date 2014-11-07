@@ -8,8 +8,8 @@ from time import time
 
 # puzzle library
 sys.path.append("..")
-from puzzle.basic import *
-from puzzle.reconstruct import *
+from core.ImageOperating import *
+from core.Reconstruct import *
 
 if (len(sys.argv)) < 2:
     print "Usage python script-puzzle [input folder] [split_h] [split_w] [output]"
@@ -24,6 +24,8 @@ output_sol = output + ".sol"
 
 cv2_img_li = read_img_cv2(input_folder)
 piece_obj_list = wrap_piece_obj(cv2_img_li,4)
+
+"""
 order_list = gen_order_list(split_w, split_h)
 set_piece_pos(piece_obj_list, order_list)
 all_order_list = get_all_order_list(order_list)
@@ -65,3 +67,4 @@ try:
     f_txt.close()
 except:
     f_sol.close()
+"""

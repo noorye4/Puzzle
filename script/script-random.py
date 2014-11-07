@@ -6,7 +6,7 @@ import sys
 
 #puzzle library
 sys.path.append("..")
-from puzzle.basic import *
-from puzzle.reconstruct import *
+from core.ImageOperating import *
+from core.Reconstruct import *
 
 output_random_img()

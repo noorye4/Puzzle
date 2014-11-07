@@ -7,8 +7,8 @@ import sys
 #puzzle library
 sys.path.append("..")
 from itertools import *
-from puzzle.basic import *
-from puzzle.reconstruct import *
+from core.ImageOperating import *
+from core.Reconstruct import *
 
 try:
     folder = sys.argv[1]

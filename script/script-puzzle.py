@@ -8,8 +8,8 @@ from time import time
 
 # puzzle library
 sys.path.append("..")
-from puzzle.basic import *
-from puzzle.reconstruct import *
+from core.ImageOperating import *
+from core.Reconstruct import *
 
 if (len(sys.argv)) < 2:
     print "Usage python script-puzzle [input folder] [split_h] [split_w] [output]"
