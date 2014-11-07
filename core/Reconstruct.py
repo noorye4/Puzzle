@@ -42,6 +42,7 @@ def wrap_piece_obj(src_piece_list, edge_depth=1):
 
         src_piece_h = src_piece.shape[0]
         src_piece_w = src_piece.shape[1]
+        print src_piece_w,src_piece_h
 
         edge_list = []
 
@@ -50,74 +51,104 @@ def wrap_piece_obj(src_piece_list, edge_depth=1):
         edge_left = []
         edge_right = []
 
-        print "#"*100
+        print "#"*200
+        #up
+        """
+        for depth in range(10):
+            for w in range(src_piece_w):
+                if depth % 2 == 0:
+                    src_piece[depth,w] = [255,255,255]
+                    edge_up.append(src_piece[depth,w])
+                    #print  src_piece[depth,w]
 
-        for w in range(src_piece_w):
-            for h in range(edge_depth):
-                """
-                if h % 2 == 0:
-                    x = 1
-                    # up
-                    #src_piece[h,w] = [0,0,0]
-                    #print src_piece[h,w]
-                    # down
-                    #src_piece[src_piece_h-edge_depth+h,w] = [0,0,0]
-                    #print src_piece[src_piece_h-edge_depth+h,w]
                 else:
-                    x = 1
-                    # up
-                    #src_piece[h,w] = [255,255,255]
-                    #print src_piece[h,w]
-                    # down
-                    #src_piece[src_piece_h-edge_depth+h,w] = [255,255,255]
-                    #print src_piece[src_piece_h-edge_depth+h,w]
-                    """
+                    src_piece[depth,w] = [0,0,0]
+                    edge_up.append(src_piece[depth,w])
+                    #print  src_piece[depth,w]
+        print len(edge_up)
+        for i in edge_up:
+            print i
+        """
+        #down
+        """
+        scan_point = src_piece_h - 2
+        for scan_point in range(scan_point,src_piece_h):
+            for w in range(src_piece_w):
+                if scan_point % 2 == 0:
+                    src_piece[scan_point,w] = [0,0,0]
+                    edge_down.append(src_piece[scan_point,w])
+                    #print src_piece[scan_point,w]
+                else:
+                    src_piece[scan_point,w] = [255,255,255]
+                    edge_down.append(src_piece[scan_point,w])
+                    #print src_piece[scan_point,w]
+        print len(edge_down)
+        for i in edge_down:
+            print i
+        """
+        #left
+        """
+        for depth in range(2):
+            for h in range(src_piece_h):
+                if depth % 2 == 0:
+                    src_piece[h,depth] = [255,255,255]
+                    edge_left.append(src_piece[h,depth])
+                    #print  src_piece[h,depth]
+                else:
+                    src_piece[h,depth] = [0,0,0]
+                    edge_left.append(src_piece[h,depth])
+                    #print  src_piece[h,depth]
+        print len(edge_left)
+        for i in edge_left:
+            print i
+        """
+        #right
+        depth = src_piece_w - 4
+        for depth in range(depth,src_piece_w):
+            for h in range(src_piece_h):
+                if depth % 2 == 0:
+                    src_piece[h,depth] = [255,255,255]
+                    edge_right.append(src_piece[h,depth])
+                    #print  src_piece[h,depth]
+                else:
+                    src_piece[h,depth] = [0,0,0]
+                    edge_right.append(src_piece[h,depth])
+                    #print  src_piece[h,depth]
 
-                edge_up.append(src_piece[h, w])
-                edge_down.append(src_piece[src_piece_h - edge_depth + h, w])
+        x = edge_right[0:len(edge_right)/4]
+        y = edge_right[len(edge_right)/4:len(edge_right)]
+        print "y"
+        for i in y:
+            print i
+        #old edge wrap
+        """
+        for w in range(src_piece_w):
+            for depth in range(edge_depth):
+                # up
+                edge_up.append(src_piece[depth, w])
+                # down
+                edge_down.append(src_piece[src_piece_h - edge_depth + depth, w])
 
         for h in range(src_piece_h):
-            for w in range(edge_depth):
-                if w % 2 == 0:
-                    # left
-                    #src_piece[h,w] = [0,0,0]
-                    #print src_piece[h,w]
-                    # right
-                    src_piece[h,src_piece_w-edge_depth+w] = [0,0,0]
-                    print src_piece[h,src_piece_w-edge_depth+w]
-                else:
-                    # left
-                    #src_piece[h,w] = [255,255,255]
-                    #print src_piece[h,w]
-                    # right
-                    src_piece[h,src_piece_w-edge_depth+w] = [255,255,255]
-                    print src_piece[h,src_piece_w-edge_depth+w]
-
-                edge_left.append(src_piece[h, w])
-                edge_right.append(src_piece[h, src_piece_w - edge_depth + w])
-
-        #modify
-        edge_list.append(edge_up)
-        edge_list.append(edge_down)
-        edge_list.append(edge_left)
-        edge_list.append(edge_right)
+            for depth in range(edge_depth):
+                # left
+                edge_left.append(src_piece[h, depth])
+                # right
+                edge_right.append(src_piece[h, src_piece_w - edge_depth + depth])
+        """
+            #edge_list.append(edge_up)
+        #edge_list.append(edge_down)
+        #edge_list.append(edge_left)
+        #edge_list.append(edge_right)
 
         cv2.imshow('image', src_piece)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-        piece = Piece(piece_id, edge_list, piece_pos)
-        piece_obj_list.append(piece)
-        piece_id += 1
+        #piece = Piece(piece_id, edge_list, piece_pos)
+        #piece_obj_list.append(piece)
+        #piece_id += 1
 
-    #for i in piece_obj_list[0].edge_list[0]:
-        #print i
-    #for piece in piece_obj_list:
-        #print "#"*50
-        #for k in piece.edge_list:
-            #print "@"*50
-            #for j in k:
-                #print j
     return piece_obj_list
 
 
@@ -191,12 +222,7 @@ def calc_order_diff(piece_obj_list, comb_list):
 
 def calc_edge_diff(src_edge, des_edge):
 
-    #if len(src_edge) == len(des_edge):
     edge_len = len(src_edge)
-    #if len(src_edge) > len(des_edge):
-        #edge_len = len(des_edge)
-    #if len(src_edge) < len(des_edge):
-        #edge_len = len(src_edge)
 
     edge_diff = 0.0
     for pixel in range(edge_len):
