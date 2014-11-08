@@ -17,13 +17,14 @@ if (len(sys.argv)) < 2:
 input_folder = sys.argv[1]
 split_h = int(sys.argv[2])
 split_w = int(sys.argv[3])
-output = str(sys.argv[4])
+edge_depth = int(sys.argv[4])
+output = str(sys.argv[5])
 
 output_txt = output + ".txt"
 output_sol = output + ".sol"
 
 cv2_img_li = read_img_cv2(input_folder)
-piece_obj_list = wrap_piece_obj(cv2_img_li,4)
+piece_obj_list = wrap_piece_obj(cv2_img_li,edge_depth)
 
 """
 order_list = gen_order_list(split_w, split_h)
@@ -38,7 +39,7 @@ for i in progressbar(range(combs), "Computing: ", 40):
     comb_list = parse_calc_edge(piece_obj_list)
     comb_list = remove_rep_comb(comb_list)
 
-    global_diff = calc_order_diff(piece_obj_list, comb_list)
+    global_diff = calc_order_diff(piece_obj_list, comb_list,edge_depth, )
     solution = Solution(all_order_list[i], global_diff)
     solution_list.append(solution)
 
