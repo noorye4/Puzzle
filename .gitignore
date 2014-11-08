@@ -1,13 +1,8 @@
 Thumbs.db
 *.pyc
-.script/split_output
-.script/random_output
-.script/solu_output
-.core/*.pyc
-.core/*.pyc
-.script/*.png
-.script/*.sol
-.script/*.txt
-.script/*.jpg
+*.txt
+*.jpg
+*.png
+*.sol
 
 
