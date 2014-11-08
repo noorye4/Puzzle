@@ -2,12 +2,12 @@ Thumbs.db
 *.pyc
 .script/split_output
 .script/random_output
-.cript/solu_output
-.ore/*.pyc
-.ore/*.pyc
-.cript/*.png
-.cript/*.sol
-.cript/*.txt
-.cript/*.jpg
+.script/solu_output
+.core/*.pyc
+.core/*.pyc
+.script/*.png
+.script/*.sol
+.script/*.txt
+.script/*.jpg
 
 
